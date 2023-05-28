@@ -24,6 +24,7 @@ public class RestfulApiApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				String frontUrl = this.environment.getProperty("custom.front-url");
+				if(frontUrl == null || frontUrl.length() == 0) return;
 				registry.addMapping("/**").allowCredentials(true).allowedOrigins(frontUrl);
 			}
 		};
