@@ -2,9 +2,11 @@ package com.chat.app.rest.Model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(schema = "UsersChat")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -12,10 +14,11 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
+    @Basic(fetch = FetchType.LAZY)
     private String password;
 
     public long getId() {

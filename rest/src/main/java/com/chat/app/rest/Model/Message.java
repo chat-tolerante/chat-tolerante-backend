@@ -2,11 +2,11 @@ package com.chat.app.rest.Model;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(schema = "MessagesChat")
-public class Message {
+public class Message implements Comparable<Message> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,14 +15,14 @@ public class Message {
     @Column(name = "Text")
     private String text;
 
-    @Column(name = "Sender")
-    private String sender;
+    @ManyToOne
+    private User sender;
 
-    @Column(name = "receiver")
-    private String receiver;
+    @ManyToOne
+    private User receiver;
 
     @Column(name = "createdDate")
-    private Date createdDate;
+    private Timestamp createdDate;
 
     public String getText() {
         return text;
@@ -35,25 +35,40 @@ public class Message {
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
-    public String getSender() {
+
+    public User getSender() {
         return sender;
     }
-    public void setSender(String sender) {
+
+    public void setSender(User sender) {
         this.sender = sender;
     }
-    public String getReceiver() {
+
+    public User getReceiver() {
         return receiver;
     }
-    public void setReceiver(String receiver) {
+
+    public void setReceiver(User receiver) {
         this.receiver = receiver;
     }
-    public Date getCreatedDate(){
+
+    public Timestamp getCreatedDate() {
         return createdDate;
     }
-    public void setCreatedDate(Date createdDate) {
+
+    public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
+    }
+
+    @Override
+    public int compareTo(Message m) {
+        if (getCreatedDate() == null || m.getCreatedDate() == null) {
+            return 0;
+        }
+        return getCreatedDate().compareTo(m.getCreatedDate());
     }
 }
